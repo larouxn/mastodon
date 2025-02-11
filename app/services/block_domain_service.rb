@@ -47,6 +47,7 @@ class BlockDomainService < BaseService
   def notify_of_severed_relationships!
     return if @domain_block_event.nil?
 
+    # perform_all_later here?
     # TODO: check how efficient that query is, also check `push_bulk`/`perform_bulk`
     @domain_block_event.affected_local_accounts.reorder(nil).find_each do |account|
       event = AccountRelationshipSeveranceEvent.create!(account: account, relationship_severance_event: @domain_block_event)

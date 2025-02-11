@@ -55,6 +55,7 @@ class VoteService < BaseService
   end
 
   def deliver_votes!
+    # perform_all_later here?
     @votes.each do |vote|
       ActivityPub::DeliveryWorker.perform_async(
         build_json(vote),

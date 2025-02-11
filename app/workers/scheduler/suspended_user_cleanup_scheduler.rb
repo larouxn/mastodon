@@ -26,6 +26,7 @@ class Scheduler::SuspendedUserCleanupScheduler
 
   private
 
+  # perform_all_later here?
   def process_deletion_requests!
     # This should be fine because we only process a small amount of deletion requests at once and
     # `id` and `created_at` should follow the same order.
