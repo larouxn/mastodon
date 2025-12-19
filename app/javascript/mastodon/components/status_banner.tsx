@@ -19,20 +19,29 @@ export const StatusBanner: React.FC<{
   variant: BannerVariant;
   expanded?: boolean;
   onClick?: () => void;
-}> = ({ children, variant, expanded, onClick }) => {
+  action?: React.ReactNode;
+}> = ({ children, variant, expanded, onClick, action }) => {
   const descriptionId = useId();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const forwardClick = useCallback<MouseEventHandler>((e) => {
-    if (
-      buttonRef.current &&
-      e.target !== buttonRef.current &&
-      !buttonRef.current.contains(e.target as Node)
-    ) {
-      buttonRef.current.click();
-      buttonRef.current.focus();
-    }
-  }, []);
+  const forwardClick = useCallback<MouseEventHandler>(
+    (e) => {
+      if (
+        buttonRef.current &&
+        e.target !== buttonRef.current &&
+        !buttonRef.current.contains(e.target as Node) &&
+        (!action ||
+          (e.target instanceof Node &&
+            !(e.target as HTMLElement).closest(
+              '.translate-button, .status__content__translate-button',
+            )))
+      ) {
+        buttonRef.current.click();
+        buttonRef.current.focus();
+      }
+    },
+    [action],
+  );
 
   return (
     // Element clicks are passed on to button
@@ -46,6 +55,8 @@ export const StatusBanner: React.FC<{
       onMouseUp={stopPropagation}
     >
       <p id={descriptionId}>{children}</p>
+
+      {action}
 
       <button
         ref={buttonRef}

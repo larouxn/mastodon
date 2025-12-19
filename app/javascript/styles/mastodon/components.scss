@@ -11291,6 +11291,12 @@ noscript {
     font-weight: 500;
   }
 
+  .status__content__translate-button,
+  .translate-button {
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+
   &--filter {
     color: var(--color-text-secondary);
 

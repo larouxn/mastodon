@@ -13,10 +13,10 @@ import ChevronRightIcon from '@/material-icons/400-24px/chevron_right.svg?react'
 import { Icon }  from 'mastodon/components/icon';
 import { Poll } from 'mastodon/components/poll';
 import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
-import { languages as preloadedLanguages } from 'mastodon/initial_state';
 
 import { EmojiHTML } from './emoji/html';
 import { HandledLink } from './status/handled_link';
+import TranslateButton from './translate_button';
 
 const MAX_HEIGHT = 706; // 22px * 32 (+ 2px padding at the top)
 
@@ -27,43 +27,6 @@ const MAX_HEIGHT = 706; // 22px * 32 (+ 2px padding at the top)
  */
 export function getStatusContent(status) {
   return status.getIn(['translation', 'contentHtml']) || status.get('contentHtml');
-}
-
-class TranslateButton extends PureComponent {
-
-  static propTypes = {
-    translation: ImmutablePropTypes.map,
-    onClick: PropTypes.func,
-  };
-
-  render () {
-    const { translation, onClick } = this.props;
-
-    if (translation) {
-      const language     = preloadedLanguages.find(lang => lang[0] === translation.get('detected_source_language'));
-      const languageName = language ? language[1] : translation.get('detected_source_language');
-      const provider     = translation.get('provider');
-
-      return (
-        <div className='translate-button'>
-          <button className='link-button' onClick={onClick}>
-            <FormattedMessage id='status.show_original' defaultMessage='Show original' />
-          </button>
-
-          <div className='translate-button__meta'>
-            <FormattedMessage id='status.translated_from_with' defaultMessage='Translated from {lang} using {provider}' values={{ lang: languageName, provider }} />
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <button className='status__content__translate-button' onClick={onClick}>
-        <FormattedMessage id='status.translate' defaultMessage='Translate' />
-      </button>
-    );
-  }
-
 }
 
 const mapStateToProps = state => ({

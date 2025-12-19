@@ -133,6 +133,7 @@ class Status extends ImmutablePureComponent {
       inUse: PropTypes.bool,
       available: PropTypes.bool,
     }),
+    languages: ImmutablePropTypes.map,
     contextType: PropTypes.string,
     ...WithOptionalRouterPropTypes,
   };
@@ -599,7 +600,7 @@ class Status extends ImmutablePureComponent {
 
             {matchedFilters && <FilterWarning title={matchedFilters.join(', ')} expanded={this.state.showDespiteFilter} onClick={this.handleFilterToggle} />}
 
-            {(!matchedFilters || this.state.showDespiteFilter) && <ContentWarning status={status} expanded={expanded} onClick={this.handleExpandedToggle} />}
+            {(!matchedFilters || this.state.showDespiteFilter) && <ContentWarning status={status} expanded={expanded} onClick={this.handleExpandedToggle} onTranslate={this.handleTranslate} languages={this.props.languages} />}
 
             {expanded && (
               <>
