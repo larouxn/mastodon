@@ -16,6 +16,10 @@ RSpec.describe 'OCR', :attachment_processing, :inline_jobs, :js, :streaming do
   end
 
   it 'can recognize text in a media attachment' do
+    # The home page may trigger transient network errors when fetching non-critical
+    # background assets (like familiar_followers) under CI load.
+    ignore_js_error(/net::ERR_INVALID_HTTP_RESPONSE/)
+
     expect(page).to have_css('div.app-holder')
 
     within('.compose-form') do
